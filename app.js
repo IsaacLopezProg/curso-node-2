@@ -3,13 +3,13 @@ require('colors');
 const { inquirirMenu, 
         pausa,
         leerInput,
-        } = require('./helpers/inquierer')
+        } = require('./helpers/inquierer');
         
 //const Tarea = require('./models/tarea')
-const Tareas =  require('./models/tareas')
+const Tareas =  require('./models/tareas');
 //const { mostrarMenu, pausa } = require('./helpers/mensaje');
 
-console.clear();
+// console.clear();
 
 const main = async() => {
   //console.log("Hola mundo");
@@ -26,14 +26,14 @@ const main = async() => {
         // code
         
         const desc = await leerInput('Descripcion:');
-        console.log(desc);
+        // console.log(desc);
         tareas.crearTarea(desc);
-        break;
+      break;
       
       case '2':
-        console.log(tareas._listado);
+        console.log(tareas.liastadoArr);
         
-        break;
+       break;
       
     }
     
