@@ -42,7 +42,8 @@ const main = async() => {
       break;
       
       case '2':
-        console.log(tareas.liastadoArr);
+        // console.log(tareas.liastadoArr);
+        tareas.listadoCompleto();
         
        break;
       
