@@ -89,10 +89,27 @@ const leerInput = async (message) => {
 }
 
 
+const listadoTareasBorrar = async(tareas = [])=>{
+	
+	const choices = tareas.map( tarea => {
+		return{
+			msg:"Hola"
+		}
+	})
+	console.log(choices);
+	       {
+          value: '1',
+          name: `${'1.'.green} Crear tarea`
+        },
+ 
+	
+}
+
 
 
 module.exports = {
   inquirirMenu,
   pausa,
-  leerInput
+  leerInput,
+  listadoTareasBorrar
 }
