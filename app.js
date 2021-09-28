@@ -42,8 +42,13 @@ const main = async() => {
       break;
       
       case '2':
-        // console.log(tareas.liastadoArr);
+       
         tareas.listadoCompleto();
+
+      case '6':
+       
+        const id = listadoTareasBorrar( tareas.liastadoArr);
+        console.log( id );
         
        break;
       
