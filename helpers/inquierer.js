@@ -91,17 +91,29 @@ const leerInput = async (message) => {
 
 const listadoTareasBorrar = async(tareas = [])=>{
 	
-	const choices = tareas.map( tarea => {
-		return{
-			msg:"Hola"
+	const choices = tareas.map( (tarea,i ) => {
+		
+    const idx = `${i + 1}.`.green;
+    
+    
+    return{
+			value : tareas.id,
+      name: `${idx } ${ tarea.desc }`
 		}
-	})
-	console.log(choices);
-	       {
-          value: '1',
-          name: `${'1.'.green} Crear tarea`
-        },
- 
+	});
+	
+  const preguntas = [{
+
+    type:'list',
+    name:'id',
+    message: 'Borrar',
+    choices
+
+  }]
+
+
+  const { id } = await inquirer.prompt(preguntas);
+  return id;
 	
 }
 
