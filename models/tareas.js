@@ -19,7 +19,7 @@ class Tareas {
   }
 
 
-	borrarTarea( id = ""){
+	borrarTarea( id = ''){
 		if (this._listado[id]){
       delete this._listado[id];
     };
@@ -42,6 +42,18 @@ class Tareas {
     const  tarea = new Tarea(desc);
     
     this._listado[tarea.id] = tarea;
+  }
+  
+  verTarea(){
+  	//console.log(Object.keys(this._listado));
+  	//console.log(Object.values(this._listado['id']));
+  	//console.log(Object.entries(this._listado));
+  	
+  	//console.log(this._listado.liastadoArr);
+  	
+  	this.liastadoArr.forEach(p =>{
+  		console.log(p.desc);
+  	});
   }
 
 
