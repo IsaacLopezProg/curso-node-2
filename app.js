@@ -5,7 +5,9 @@ const { guardarDB, leerDB } = require('./helpers/guardarArchivo');
 const { inquirirMenu, 
         pausa,
         leerInput,
-        listadoTareasBorrar
+        listadoTareasBorrar,
+        confirmar,
+        mostrarListadoChecklist
         } = require('./helpers/inquierer');
         
 const Tareas =  require('./models/tareas');
@@ -45,11 +47,38 @@ const main = async() => {
       case '2':
        
         tareas.listadoCompleto();
+        break;
+        
+      case '3':
+       
+      	//tareas.verTarea();
+      	tareas.liastadoArr.forEach(p=>{
+      		console.log(p.desc)
+      	});
+        //const [id] = tareas.liastadoArr;
+        //console.log(desc);
+        break;
+        
+      case '5':
+      	
+      	const ids = await mostrarListadoChecklist(tareas.liastadoArr);	
+      	console.log(ids);
+      	
+      break;
 
       case '6':
        
         const id = await listadoTareasBorrar( tareas.liastadoArr);
-        console.log( {id} );
+        if ( id !== '0'){
+        	const ok = await confirmar('Estas seguro?');
+        	if (ok){
+        	tareas.borrarTarea(id);
+        	console.log(`Tarea Borrada`.red);
+        	}else{
+        	console.log(`La Tarea no fue borrada`.blue);
+        	}
+        }
+        //console.log( {ok} );
         
        break;
       
