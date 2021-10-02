@@ -52,17 +52,39 @@ const main = async() => {
       case '3':
        
       	//tareas.verTarea();
-      	tareas.liastadoArr.forEach(p=>{
-      		console.log(p.desc)
-      	});
         //const [id] = tareas.liastadoArr;
         //console.log(desc);
+        
+        console.log();
+      	tareas.liastadoArr.forEach((p, i ) =>{
+          const idx = `${i + 1}`.green;
+          if(p.completadoEn ){
+            const compl = 'Completado'.green;
+            const date = p.completadoEn.toString().blue;
+            console.log(`${ idx } ${ p.desc } :: ${compl} - ${date} `)
+          }
+        });
+
+        break;
+
+      case '4':
+        console.log();
+        tareas.liastadoArr.forEach((p, i ) =>{
+          const idx = `${i + 1}`.green;
+          if(!p.completadoEn ){
+            const compl = 'Pendiente'.green;
+            console.log(`${ idx } ${ p.desc } :: ${compl} `)
+          }
+        
+        });
+
         break;
         
       case '5':
       	
       	const ids = await mostrarListadoChecklist(tareas.liastadoArr);	
-      	console.log(ids);
+      	// console.log(ids);
+        tareas.toggleCompletadas(ids);
       	
       break;
 
