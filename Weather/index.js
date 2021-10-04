@@ -7,7 +7,7 @@ const main = async() => {
     // const texto = await leerInput("Hola :");
     // console.log(texto);
 
-		const busquedas = new Busquedas();
+	const busquedas = new Busquedas();
     let opt;
 
 
@@ -18,45 +18,45 @@ const main = async() => {
         
         switch (opt) {
           case 1:
-          	const clima = await busquedas.climaLugar()
+			  
           	
           	const termino = await leerInput('Ciudad: ');
           	const lugares = await busquedas.ciudad(termino);	
-         		const id = await listarLugares(lugares);
-         		const lugarSel = lugares.find(l => l.id === id);
-         		//const lat = lugarSel.lat;
-         		
-          	
-          	
-          	
+			const id = await listarLugares(lugares);
+			if (id === 0) continue;
+
+				//guardar en db
+			const lugarSel = lugares.find(l => l.id === id);
+			
+			busquedas.agregarHistorial(lugarSel.nombre);
           	//clima
-          	const lat = lugarSel.lat,
-          		lon = lugarSel.lng;
-          		//lat=19.43&lon=-70.62
-          	//const clima = await busquedas.climaLugar(19.34,-70.62)
+          	const clima = await busquedas.climaLugar(lugarSel.lat,lugarSel.lng); 
+			console.log(clima);
           	
-          	
-          	
-          	
-          	
+          	console.clear();
           	console.log('\n Informacion de la ciudad \n'.green);
           	console.log('Ciudad:', lugarSel.nombre.blue);
           	console.log('Lat:',lugarSel.lat);
           	console.log('Lng:',lugarSel.lng);
-          	console.log('Temperatura:',);
-          	console.log('Minima:',);
-          	console.log('Maxima:',);
-          	console.log('Como esta el clima:',);
+          	console.log('Temperatura:',clima.temp,);
+          	console.log('Minima:',clima.min);
+          	console.log('Maxima:',clima.max);
+          	console.log('Como esta el clima:',clima.desc);
             // code
             
           break;
           
           case 2:
+
+			// console.log(busquedas.historial)
           	
-          	console.log(process.env.OPENWATHER_KEY);
-          	//console.log(lugarSel);
-          	//console.log(lugarSel.lng);
-           
+			busquedas.historialCapitalizado.forEach((lugar, i)=>{
+				//const hist = lugar.replace(/\b[a-z]/g,b=>b.toUpperCase()); //una forma de capitalizar
+				const idx = `${i + 1}.`.green;
+				console.log(`${ idx } ${ lugar }`);
+			});
+
+			
           
             break;
 

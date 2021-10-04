@@ -1,12 +1,30 @@
+const fs = require('fs'); 
+
 const axios = require('axios');
 
 
 class Busquedas{
 	
 	historial = [];
+	dbPath = './DB/database.json';
 	
 	constructor(){
-		//TODO: LEER DB SI ESXISTE
+		
+		this.leerDB();
+	}
+
+	get historialCapitalizado(){
+		
+		return this.historial.map(lugar =>{
+
+			let palabras = lugar.split(' ');
+			palabras = palabras.map(p  => p[0].toUpperCase() + p.substring(1));
+
+			return palabras.join(' ');
+
+		})
+
+		
 	}
 	
 	get paramsMapbox(){
@@ -57,27 +75,88 @@ class Busquedas{
 		
 	}
 	
-	testAxios(){
-		return axios.get('api.openweathermap.org/data/2.5/weather?lat=19.43&lon=-70.42&appid=5ec9319031dac6e4d54b269d01d579a7&units=metric&lang=es')
-	}
 	
-	async climaLugar(){
+	async climaLugar(lat, lon){
 		try {
 			// intance.axios.create()
 			
-			
-			const respu = await axios.get('api.openweathermap.org/data/2.5/weather?lat=19.43&lon=-70.42&appid=5ec9319031dac6e4d54b269d01d579a7&units=metric&lang=es')
-			
-			//const resp = await intance.get();
-			console.log(respu);
-			
+			// NOTA IMPORTANTE: siempre poner http:// en las conexiones con axios
+			// const respu = await axios.get('http://api.openweathermap.org/data/2.5/weather?lat=19.43&lon=-70.42&appid=5ec9319031dac6e4d54b269d01d579a7&units=metric&lang=es');
 			
 			// resp.data
+			
+			
+			const intance = axios.create({
+				baseURL: `http://api.openweathermap.org/data/2.5/weather`,//?lat=${lat}&lon=${lon}`,
+				params: { ...this.paramsOpenwather, lat, lon}
+			})
+			
+			
+			
+			
+			const resp = await intance.get();
+			// description = resp.data.weather.description;
+			// console.log(resp.data);
+			// return resp.data(clima => ({
+			// 	desc : clima.weather.description,
+			// 	min:clima.main.temp_min,
+			// 	max:clima.main.temp_max,
+			// 	temp:clima.main.temp
+			// }));
+
+			return {
+				desc: resp.data.weather[0].description,
+				min: resp.data.main.temp_min,
+				max: resp.data.main.temp_max,
+				temp: resp.data.main.temp
+			}
 			
 			
 		} catch (e) {
 			console.log(e)
 		}
+	}
+
+
+	agregarHistorial(lugar=''){
+
+		if(this.historial.includes(lugar.toLocaleLowerCase())){
+			return;
+		}
+
+		this.historial = this.historial.slice(0,5);
+
+		this.historial.unshift(lugar.toLocaleLowerCase());
+
+
+		this.guardarDB();
+
+	}
+
+	guardarDB(){
+
+		const payload = {
+			historial: this.historial
+		};
+
+		fs.writeFileSync(this.dbPath, JSON.stringify(payload));
+
+	
+
+	}
+
+	leerDB(){
+
+		if ( !fs.existsSync(this.dbPath)){
+			return null;
+		}
+
+		const info = fs.readFileSync(this.dbPath, { encoding: 'utf-8'});
+    	const data = JSON.parse(info);
+		this.historial = data.historial;
+
+ 
+
 	}
 }
 
