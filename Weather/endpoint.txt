@@ -1,1 +1,25 @@
 https://api.mapbox.com/geocoding/v5/mapbox.places/bogota.json?access_token=pk.eyJ1Ijoic2VhcmNoLW1hY2hpbmUtdXNlci0xIiwiYSI6ImNrN2Y1Nmp4YjB3aG4zZ253YnJoY21kbzkifQ.JM5ZeqwEEm-Tonrk5wOOMw&cachebuster=1633288614967&autocomplete=true&limit=5&language=es
+api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric&lang=es
+
+api.openweathermap.org/data/2.5/weather?lat=19.43&lon=-70.62&appid=5ec9319031dac6e4d54b269d01d579a7&units=metric&lang=es
+api.openweathermap.org/data/2.5/weather?lat=19.43&lon=-70.62&appid=5ec9319031dac6e4d54b269d01d579a7&units=metric&lang=es
+
+
+const intance = axios.create({
+					baseURL: `api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}`,
+					params:{
+						'appid':process.env.OPENWATHER_KEY,
+						'units':'metric',
+						'lang':'es'
+					}
+			});
+
+
+
+
+return resp.data.map(clima => ({
+				desc : clima.weather.description,
+				min:clima.main.temp_min,
+				max:clima.main.temp_max,
+				temp:clima.main.temp
+			}));

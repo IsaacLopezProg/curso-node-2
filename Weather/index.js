@@ -1,9 +1,6 @@
 require('dotenv').config()
 
-console.log(process.env);
-
-
-const { leerInput,inquirirMenu } = require('./helpers/inquierer');
+const { leerInput,inquirirMenu, listarLugares } = require('./helpers/inquierer');
 const Busquedas = require('./models/busqueda');
 
 const main = async() => {
@@ -21,26 +18,44 @@ const main = async() => {
         
         switch (opt) {
           case 1:
+          	const clima = await busquedas.climaLugar()
           	
-          	const lugar = await leerInput('Ciudad: ');
-          	await busquedas.ciudad(lugar);	
-         	//console.log(lugar);
+          	const termino = await leerInput('Ciudad: ');
+          	const lugares = await busquedas.ciudad(termino);	
+         		const id = await listarLugares(lugares);
+         		const lugarSel = lugares.find(l => l.id === id);
+         		//const lat = lugarSel.lat;
+         		
+          	
+          	
+          	
+          	//clima
+          	const lat = lugarSel.lat,
+          		lon = lugarSel.lng;
+          		//lat=19.43&lon=-70.62
+          	//const clima = await busquedas.climaLugar(19.34,-70.62)
+          	
           	
           	
           	
           	
           	console.log('\n Informacion de la ciudad \n'.green);
-          	console.log('Ciudad:',);
-          	console.log('Lat:',);
-          	console.log('Lng:',);
+          	console.log('Ciudad:', lugarSel.nombre.blue);
+          	console.log('Lat:',lugarSel.lat);
+          	console.log('Lng:',lugarSel.lng);
           	console.log('Temperatura:',);
           	console.log('Minima:',);
           	console.log('Maxima:',);
+          	console.log('Como esta el clima:',);
             // code
             
           break;
           
           case 2:
+          	
+          	console.log(process.env.OPENWATHER_KEY);
+          	//console.log(lugarSel);
+          	//console.log(lugarSel.lng);
            
           
             break;
@@ -56,4 +71,4 @@ const main = async() => {
 
 }
 
-//main();
+main();
